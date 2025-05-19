@@ -1,55 +1,55 @@
 # 📢 Notification Service
 
-A scalable full-stack notification system supporting **email, SMS, and in-app notifications**, built with asynchronous processing using **RabbitMQ**, MongoDB for persistence, and a React frontend UI with **dark mode** and **mobile responsiveness**.
+A scalable full-stack notification system supporting **email, SMS, and in-app notifications**. Built with **asynchronous processing via RabbitMQ**, MongoDB for persistence, and a modern React UI featuring **dark mode** and **mobile responsiveness** — all styled using **vanilla CSS**.
 
 ---
 
 ## 📌 Features
 
-- **Send notifications** via `POST /notifications` (email, SMS, or in-app)
-- **Retrieve user notifications** via `GET /users/:id/notifications`
-- Asynchronous handling with **RabbitMQ**
-- **Retry logic**: Up to 3 attempts on failure
-- **MongoDB** stores all notifications with status:
+- 🔁 **Send notifications** (email, SMS, in-app) via REST API  
+- 📬 **Retrieve user notifications**  
+- 🧵 **Async processing** using RabbitMQ  
+- ✅ **Retry logic**: up to 3 attempts on failure  
+- 💾 **MongoDB** stores all notifications with status:
   - `pending`
   - `sent`
   - `failed`
-- Frontend UI to **send** and **view** notifications
-  - Professional look
-  - **Dark mode**
-  - **Mobile-responsive**
+- 🎨 Frontend:
+  - Send/view notifications
+  - Dark mode UI
+  - Fully responsive using CSS media queries
 
 ---
 
 ## 🛠️ Tech Stack
 
-### Backend
+### 🔙 Backend
 - Node.js
 - Express.js
 - MongoDB + Mongoose
 - RabbitMQ (`amqplib`)
 
-### Frontend
+### 🌐 Frontend
 - React.js
-- TailwindCSS
-- Vite (for faster builds)
+- Vanilla CSS
+- Vite (for fast dev & build)
 
 ---
 
-## 🚀 Getting Started
+## 🚀 Getting Started (Local Setup)
 
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/your-username/notification-service.git
-cd notification-service
+git clone https://github.com/ritesh5604/Notification-Service.git
+cd Notification-Service
 2. Install Backend Dependencies
 bash
 Copy
 Edit
 npm install
-3. Set Environment Variables
-Create a .env file in the root:
+3. Set Up Environment Variables
+Create a .env file in the root directory:
 
 env
 Copy
@@ -64,28 +64,28 @@ bash
 Copy
 Edit
 rabbitmq-server
-5. Run the Consumer
+5. Run the Message Consumer
 bash
 Copy
 Edit
 node consumer.js
-6. Start Backend Server
+6. Start the Backend Server
 bash
 Copy
 Edit
 npm run dev
-# or
+# OR
 node server.js
-7. Run the Frontend (in separate terminal)
+7. Run the Frontend (from subfolder)
 bash
 Copy
 Edit
-cd client
+cd notification-frontend
 npm install
 npm run dev
 📬 API Endpoints
 ➤ Send Notification
-POST /notifications/send-notification
+POST /notifications
 
 Request Body:
 
@@ -94,7 +94,7 @@ Copy
 Edit
 {
   "userId": "ritesh134",
-  "type": "sms", // email, sms, in-app
+  "type": "sms",        // Options: "email", "sms", "in-app"
   "message": "Hey!"
 }
 Response:
@@ -109,78 +109,89 @@ Edit
 ➤ Get User Notifications
 GET /notifications/users/:userId/notifications
 
-Returns all notifications for the user.
+Returns all notifications for a specific user.
 
-🔁 Retry & Queue Logic
-A new notification is created with status pending.
+🔁 Queue & Retry Logic
+New notification created with status pending
 
-It is pushed to a RabbitMQ queue (notification_queue).
+Pushed to RabbitMQ queue: notification_queue
 
-The consumer.js fetches and processes it asynchronously.
+consumer.js picks and processes it
 
-Simulated sending of notifications (with randomized failures).
+Simulated delivery (randomized success/failure)
 
-Retries up to 3 times.
+Retries up to 3 times on failure
 
-Final status is updated to sent or failed.
+Final status updated to either sent or failed
 
-📦 Example Console Output
+📦 Sample Console Output
 bash
 Copy
 Edit
 🚀 Server running on port 5000
 ✅ MongoDB connected
 ✅ Connected to RabbitMQ
-📥 Notification (6650...) queued for processing...
-📤 Published to queue: {
+
+📥 Notification queued...
+📤 Published to queue:
+{
   userId: 'ritesh134',
   message: 'Hey!',
   type: 'sms',
   notificationId: ObjectId('...')
 }
+
 🐰 Waiting for messages in queue: notification_queue
-📱 [6650...] Sending SMS to user ritesh134: hey!
+📱 Sending SMS to user ritesh134: Hey!
 ✅ Notification sent
 🌐 Frontend Features
-📱 Mobile responsive
+🔄 Real-time status updates (e.g., "Sending...", "Fetched 3 notifications")
 
-🌙 Dark mode UI
+🌙 Dark mode toggle
 
-📤 Send Notifications via dropdown (email/SMS/in-app)
+📱 Mobile responsive via CSS media queries
 
-📥 Fetch user-specific history
+📤 Send notifications (choose type: email/SMS/in-app)
 
-✅ Realtime status feedback (e.g., Sending..., Fetched 3 notifications)
+📥 View notification history by user
 
-✅ The frontend client is located in the client/ folder and runs independently via Vite.
+The frontend is located in the notification-frontend directory inside the project.
 
 ✅ Assumptions
-No real email/SMS APIs; sending is simulated via console logs
+Email/SMS sending is simulated via console logs
 
-userId is a simple identifier string
+userId is treated as a basic string
 
-RabbitMQ must be installed and running locally
-
-MongoDB must be accessible at MONGO_URI
+RabbitMQ and MongoDB must be installed and running locally
 
 🚀 Deployment
-You can deploy the backend and frontend to platforms like:
-
 Backend:
-Render
-
-Railway
-
-Heroku (with RabbitMQ add-on)
+Deploy to Render, Railway, or Heroku (add RabbitMQ plugin if needed)
 
 Frontend:
-Vercel
+Deploy to Vercel, Netlify, or GitHub Pages (works with Vite)
 
-Netlify
+Make sure to:
 
-GitHub Pages (with minor config)
+Add your .env file on the host platform
 
-📝 Ensure environment variables are configured properly on hosting platforms, and backend URL in frontend is updated accordingly.
+Set the correct API base URL in the frontend
+
+🙌 Why This Project Stands Out
+This project mimics real-world notification architecture with:
+
+Async queue-based processing
+
+Retry logic
+
+Notification status tracking
+
+Clean separation of backend, consumer, and UI responsibilities
+
+Great for learning, interviews, and portfolio showcasing!
 
 🤝 Contributing
-Pull requests are welcome! For major changes, open an issue first to discuss.
+Pull requests are welcome! For suggestions, bugs, or improvements, open an issue and let's collaborate.
+
+© 2025 Ritesh Pandey — Notification Service built using Node.js, MongoDB, RabbitMQ, React, and good old Vanilla CSS.
+
